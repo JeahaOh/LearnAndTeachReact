@@ -1,12 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import App from "./App";
+import App from './App';
 
-const rootElement = document.getElementById("root");
+// index.html의 #root를 찾아 react가 렌더링 한다.
+const rootElement = document.getElementById('root');
+
 ReactDOM.render(
   <React.StrictMode>
     <App />
   </React.StrictMode>,
-  rootElement
+  rootElement,
 );
