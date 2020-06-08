@@ -1,2 +1,0 @@
-# LearnAndTeachReact
-Created with CodeSandbox
