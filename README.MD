@@ -1,5 +1,8 @@
 # React, 배워서 남주자.
 
+## 02. first react component
+컴포넌트는 UI 조각이고, 재사용도 가능함.
+
 ## 01. React Project의 초기 상태에 대한 설명.
 index.html의 root와 index.js.  
 app.js
