@@ -3,6 +3,7 @@ import Hello from './Hello';
 import './styles.css';
 import Wrapper from './Wrapper';
 import Counter from './Counter';
+import InputSample from './InputSample';
 
 export default function App() {
   return (
@@ -14,6 +15,9 @@ export default function App() {
       </Wrapper>
       <Wrapper>
         <Counter />
+      </Wrapper>
+      <Wrapper>
+        <InputSample />
       </Wrapper>
     </>
   );
