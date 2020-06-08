@@ -1,5 +1,9 @@
 # React, 배워서 남주자.
 
+## 05. 조건부 렌더링.
+
+특정 조건에 따라서 다른 결과를 보여주도록 해보자.
+
 ## 04. Props를 통해 컴포넌트에 값 전달하기.
 
 - 컴포넌트를 사용할 때 값을 전달할 때 props(properties)사용함.
@@ -7,7 +11,7 @@
 
 ## 03. JSX
 
-jsx는 (babel)[https://babeljs.io/]이라는 도구를 이용해서 javascript 코드를 html로 만들어 주는 것임.  
+jsx는 [babel](https://babeljs.io/)이라는 도구를 이용해서 javascript 코드를 html로 만들어 주는 것임.  
 babel 테스트에서 다음 코드를 테스트 해 보자.  
 
 ```js

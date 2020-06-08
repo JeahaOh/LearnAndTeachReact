@@ -1,6 +1,6 @@
 import React from 'react';
 
-function Hello({ name, color }) {
+function Hello({ name, color, isSpecial }) {
   console.log(name, color);
   return (
     <div
@@ -8,6 +8,7 @@ function Hello({ name, color }) {
         color,
       }}
     >
+      {isSpecial && <b>*</b>}
       HELLO {name}
     </div>
   );
