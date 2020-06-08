@@ -4,6 +4,7 @@ import './styles.css';
 import Wrapper from './Wrapper';
 import Counter from './Counter';
 import InputSample from './InputSample';
+import UserList from './UserList';
 
 export default function App() {
   return (
@@ -18,6 +19,9 @@ export default function App() {
       </Wrapper>
       <Wrapper>
         <InputSample />
+      </Wrapper>
+      <Wrapper>
+        <UserList />
       </Wrapper>
     </>
   );
