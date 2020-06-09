@@ -11,5 +11,5 @@ function Wrapper({ children }) {
 
 export default React.memo(
   Wrapper,
-  (prevProps, nextProps) => nextProps.children === prevProps.children,
+  // (prevProps, nextProps) => nextProps.children === prevProps.children,
 );

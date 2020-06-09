@@ -1,5 +1,40 @@
 # React, 배워서 남주자.
 
+## 19 useReducer Hook.
+
+useState가 아닌 useReducer로 컴포넌트의 상태를 관리해 보자.  
+기존에는 useState로 상태를 설정해 주었는데, useReducer를 이용해서도 상태를 업데이트 할 수 있음.  
+useState는 다음 상태를 직접 지정해주는 방법으로 상태를 관리하는 반면,  
+useReducer는 action이라는 객체를 기반으로 상태를 업데이트함.  
+action 객체는 update할 때 참조하는 객체인데,  
+```js
+dispatch({
+  type:'INCREMENT',
+  diff: 4
+});
+```
+type이라는 값을 참조해서 어떤 action을 할지 명시할 수 있고,  
+업데이트를 할때 참조할 값도 같이 넣어줄 수 있음.  
+그리고, 컴포넌트의 상태 업데이트 로직을 컴포넌트 밖으로 분리 가능. -> 다른 파일에서 불러와 사용도 가능.  
+reducer : 상태를 업데이트 하는 함수.
+```js
+//  현재 상태와 액션은 받아와서,
+function thisIsReducer( state, action ) {
+  //  액션 타입에 따라 상태를 업데이트 해주는 reducer의 로직.
+  switch( action.type ) {
+    case 'INCREMENT' : return state + 1;
+    case 'DECREMENT' : return state - 1;
+    default : return state;
+  }
+}
+//  useReducer를 사용할 땐, 이런식으로 선언 하는데,  
+//  첫번째 파라미터로 만들어준 reducer를 넣어주고, 
+//  두번째 파라미터로 그 기본값(문자열, 숫자, 객체, 배열 등)을 넣어줌.
+const [state, dispatch] = useReducer( thisIsReducer, 0 );
+//  첫번째는 reducer에서 가져오는 변수는 관리 할 상태,
+//  두번째는 dispatch로 액션을 발생시키는 함수 객체임.
+```
+
 ## 18  React.memo를 사용한 컴포넌트 리렌더링 방지.
 
 컴포넌트에서 리렌더링이 불 필요할때 이전에 렌더링 했던 결과를 재사용하는 방법.  
