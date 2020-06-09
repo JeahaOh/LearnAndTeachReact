@@ -6,6 +6,7 @@ import Counter from './Counter';
 import InputSample from './InputSample';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
+import useInputs from './hooks/useInputs_state';
 
 function coutActiveUsers(users) {
   console.log('활성 사용자 수를 세는 중...');
@@ -13,10 +14,6 @@ function coutActiveUsers(users) {
 }
 
 const initialState = {
-  inputs: {
-    username: '',
-    email: '',
-  },
   users: [
     {
       id: 1,
@@ -40,14 +37,6 @@ const initialState = {
 };
 function usersReducer(state, action) {
   switch (action.type) {
-    case 'CHANGE_INPUT':
-      return {
-        ...state,
-        inputs: {
-          ...state.inputs,
-          [action.name]: action.value,
-        },
-      };
     case 'CREATE_USER':
       //  reducer를 사용하면 inputs의 초기화와, users에 user를 추가하는 행동을 한번에 할 수 있다.
       return {
@@ -72,18 +61,13 @@ function usersReducer(state, action) {
 }
 export default function App() {
   const [state, dispatch] = useReducer(usersReducer, initialState);
+  const [form, onChange, reset] = useInputs({
+    username: '',
+    email: '',
+  });
+  const { username, email } = form;
   const { users } = state;
   const nextId = useRef(users.length + 1);
-  const { username, email } = state.inputs;
-
-  const onChange = useCallback(e => {
-    const { name, value } = e.target;
-    dispatch({
-      type: 'CHANGE_INPUT',
-      name,
-      value,
-    });
-  }, []);
 
   const onCreate = useCallback(() => {
     dispatch({
@@ -95,7 +79,8 @@ export default function App() {
       },
     });
     nextId.current += 1;
-  }, [username, email]);
+    reset();
+  }, [username, email, reset]);
 
   const onToggle = useCallback(id => {
     dispatch({

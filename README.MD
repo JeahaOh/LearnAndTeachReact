@@ -1,5 +1,10 @@
 # React, 배워서 남주자.
 
+## 21  커스텀 Hook 만들어 사용하기
+
+컴포넌트를 만들다 반복되는 로직들이 생길 수 있음.  
+이런 경우 useEffect, useState, useReducer를 이용해서 컴포넌트에서 사용하고 싶은 값을 반환하는 custom Hook을 만들면 됨.  
+
 ## 20 useReducer -> App.js에서 useReducer 사용하기.
 
 관리하는 값이 단순하다면 useState가 낫다.(간단하면 useState)  
