@@ -9,4 +9,7 @@ function Wrapper({ children }) {
   return <div style={style}>{children}</div>;
 }
 
-export default Wrapper;
+export default React.memo(
+  Wrapper,
+  (prevProps, nextProps) => nextProps.children === prevProps.children,
+);

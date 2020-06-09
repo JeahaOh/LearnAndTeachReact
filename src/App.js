@@ -65,32 +65,26 @@ export default function App() {
     };
 
     // setUsers([...users, user]);
-    setUsers(users.concat(user));
+    setUsers(users => users.concat(user));
 
     setInputs({
       username: '',
       email: '',
     });
     nextId.current += 1;
-  }, [username, email, users]);
+  }, [username, email]);
 
-  const onRemove = useCallback(
-    id => {
-      setUsers(users.filter(user => user.id !== id));
-    },
-    [users],
-  );
+  const onRemove = useCallback(id => {
+    setUsers(users => users.filter(user => user.id !== id));
+  }, []);
 
-  const onToggle = useCallback(
-    id => {
-      setUsers(
-        users.map(user =>
-          user.id === id ? { ...user, active: !user.active } : user,
-        ),
-      );
-    },
-    [users],
-  );
+  const onToggle = useCallback(id => {
+    setUsers(users =>
+      users.map(user =>
+        user.id === id ? { ...user, active: !user.active } : user,
+      ),
+    );
+  }, []);
 
   //  users가 바뀌었을 때만 countActiveUsers 함수를 호출하도록 한다.
   const count = useMemo(() => coutActiveUsers(users), [users]);

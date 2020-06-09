@@ -19,4 +19,4 @@ Hello.defaultProps = {
   color: 'dimgrey',
 };
 
-export default Hello;
+export default React.memo(Hello);

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 
-export default function InputSample() {
+function InputSample() {
   const [inputs, setInputs] = useState({
     name: '',
     nickname: '',
@@ -14,10 +14,10 @@ export default function InputSample() {
     const { name, value } = e.target;
     console.log(name, value);
 
-    setInputs({
+    setInputs(inputs => ({
       ...inputs,
       [name]: value,
-    });
+    }));
   };
 
   const onReset = () => {
@@ -50,3 +50,5 @@ export default function InputSample() {
     </div>
   );
 }
+
+export default React.memo(InputSample);
