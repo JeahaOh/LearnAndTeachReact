@@ -6,7 +6,7 @@ import Counter from './Counter';
 import InputSample from './InputSample';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
-import useInputs from './hooks/useInputs_state';
+import useInputs from './hooks/useInputs_reducer';
 
 function coutActiveUsers(users) {
   console.log('활성 사용자 수를 세는 중...');
