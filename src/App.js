@@ -8,6 +8,39 @@ import UserList from './UserList';
 import CreateUser from './CreateUser';
 import ContextSample from './ContextSample';
 
+import produce from 'immer';
+window.produce = produce;
+
+{
+  console.group('immer test');
+  const obj = {
+    willChange: 1,
+    wontChange: 10,
+  };
+
+  const nextObj = produce(obj, draft => {
+    draft.willChange += 1;
+  });
+
+  console.log(obj);
+  console.log(nextObj);
+
+  const arr = [
+    { id: 1, text: 'asdf' },
+    { id: 2, text: 'hell' },
+    { id: 3, text: 'js' },
+  ];
+
+  const nextArr = produce(arr, draft => {
+    draft.push({ id: 4, text: 'react' });
+    draft[1].text = draft[1].text + ' the js';
+  });
+
+  console.log(arr);
+  console.log(nextArr);
+  console.groupEnd('immer test');
+}
+
 function coutActiveUsers(users) {
   console.log('활성 사용자 수를 세는 중...');
   return users.filter(user => user.active).length;

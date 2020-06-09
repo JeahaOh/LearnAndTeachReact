@@ -1,5 +1,88 @@
 # React, 배워서 남주자.
 
+## 24 immer를 사용한 더 쉬운 불변성 지키기.
+
+immer라는 라이브러리를 사용해서 불변성을 더 쉽게 지키는 방법을 알아보자.  
+```js
+  const object = {
+    a : 1,
+    b : 2,
+  };
+
+  object.b = 3;
+```
+이런식으로 값을 직접 변경하는 것은 불변성을 깨트리는 행위임.  
+```js
+  const object = {
+    a : 1,
+    b : 2,
+  };
+
+  const nextObject = {
+    ...object,
+    b: 3
+  };
+```
+새로운 객체를 만들고, 이전에 만든 객체를 복사한 뒤,  
+새로운 값을 넣어주어야 component가 제대로 rerendering 되고, component 최적화도 할 수 있음.    
+  
+배열 같은 경우도 다음과 같이 push, splice 하는 것 보다,
+```js
+const todos = [
+  {
+    id: 1,
+    text : '할 일 #1',
+    done : true,
+  },{
+    id: 2,
+    text : '할 일 #2',
+    done : false,
+  }
+];
+
+todos.push({
+    id: 3,
+    text : '할 일 #3',
+    done : false,
+  });
+
+todos.splice(
+  todo.findIndex( todo => todo.id === 2),
+  1
+);
+```
+다음과 같이 concat, filter, map을 사용하는게 좋음.
+```js
+const todos = [
+  {
+    id: 1,
+    text : '할 일 #1',
+    done : true,
+  },{
+    id: 2,
+    text : '할 일 #2',
+    done : false,
+  }
+];
+
+const inserted = todoes.concat({
+  id: 3,
+  text : '할 일 #3',
+  done : false,
+});
+
+const filtered = todos.filter( todo => todo.id !== 2);
+
+const toggled = todos.map(
+  todo => todo.is === 2
+  ? { ...todo, done : !todo.done, }
+  : todo
+);
+```
+코드가 어려운건 아닌데 사실 프로젝트가 복잡해지면 번거러울 수도 있음.  
+immer를 사용하면 불변성을 해치는 코드를 작성해도,  
+immer가 대신 불변성을 유지해준다.
+
 ## 23 useDispatch Context
 
 특정 함수를 여러 컴포넌트에 거쳐서 전달해야 한다면,  
