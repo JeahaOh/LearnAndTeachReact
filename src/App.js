@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo, useCallback } from 'react';
+import React, { useRef, useReducer, useMemo, useCallback } from 'react';
 import Hello from './Hello';
 import './styles.css';
 import Wrapper from './Wrapper';
@@ -12,26 +12,12 @@ function coutActiveUsers(users) {
   return users.filter(user => user.active).length;
 }
 
-export default function App() {
-  const [inputs, setInputs] = useState({
+const initialState = {
+  inputs: {
     username: '',
     email: '',
-  });
-
-  const { username, email } = inputs;
-
-  const onChange = useCallback(
-    e => {
-      const { name, value } = e.target;
-      setInputs({
-        ...inputs,
-        [name]: value,
-      });
-    },
-    [inputs],
-  );
-
-  const [users, setUsers] = useState([
+  },
+  users: [
     {
       id: 1,
       username: 'asdf',
@@ -50,43 +36,81 @@ export default function App() {
       email: '03@test.com',
       active: true,
     },
-  ]);
-
+  ],
+};
+function usersReducer(state, action) {
+  switch (action.type) {
+    case 'CHANGE_INPUT':
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          [action.name]: action.value,
+        },
+      };
+    case 'CREATE_USER':
+      //  reducer를 사용하면 inputs의 초기화와, users에 user를 추가하는 행동을 한번에 할 수 있다.
+      return {
+        inputs: initialState.inputs,
+        users: state.users.concat(action.user),
+      };
+    case 'TOGGLE_USER':
+      return {
+        ...state,
+        users: state.users.map(user =>
+          user.id === action.id ? { ...user, active: !user.active } : user,
+        ),
+      };
+    case 'REMOVE_USER':
+      return {
+        ...state,
+        users: state.users.filter(user => user.id !== action.id),
+      };
+    default:
+      throw Error('Unhandled Action On UsersReducer.');
+  }
+}
+export default function App() {
+  const [state, dispatch] = useReducer(usersReducer, initialState);
+  const { users } = state;
   const nextId = useRef(users.length + 1);
-  console.log(nextId);
+  const { username, email } = state.inputs;
+
+  const onChange = useCallback(e => {
+    const { name, value } = e.target;
+    dispatch({
+      type: 'CHANGE_INPUT',
+      name,
+      value,
+    });
+  }, []);
 
   const onCreate = useCallback(() => {
-    console.log(nextId.current);
-
-    const user = {
-      id: nextId.current,
-      username,
-      email,
-    };
-
-    // setUsers([...users, user]);
-    setUsers(users => users.concat(user));
-
-    setInputs({
-      username: '',
-      email: '',
+    dispatch({
+      type: 'CREATE_USER',
+      user: {
+        id: nextId.current,
+        username,
+        email,
+      },
     });
     nextId.current += 1;
   }, [username, email]);
 
-  const onRemove = useCallback(id => {
-    setUsers(users => users.filter(user => user.id !== id));
-  }, []);
-
   const onToggle = useCallback(id => {
-    setUsers(users =>
-      users.map(user =>
-        user.id === id ? { ...user, active: !user.active } : user,
-      ),
-    );
+    dispatch({
+      type: 'TOGGLE_USER',
+      id,
+    });
   }, []);
 
-  //  users가 바뀌었을 때만 countActiveUsers 함수를 호출하도록 한다.
+  const onRemove = useCallback(id => {
+    dispatch({
+      type: 'REMOVE_USER',
+      id,
+    });
+  }, []);
+
   const count = useMemo(() => coutActiveUsers(users), [users]);
   return (
     <>

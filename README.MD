@@ -1,5 +1,11 @@
 # React, 배워서 남주자.
 
+## 20 useReducer -> App.js에서 useReducer 사용하기.
+
+관리하는 값이 단순하다면 useState가 낫다.(간단하면 useState)  
+관리하는 값이 많고 상태의 구조가 복잡하다면 useReducer가 낫다.  
+(setter를 한 함수에서 여러번 사용한다면 useReduce를 사용하는게 낫다.)
+
 ## 19 useReducer Hook.
 
 useState가 아닌 useReducer로 컴포넌트의 상태를 관리해 보자.  
