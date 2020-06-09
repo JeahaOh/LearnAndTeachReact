@@ -1,5 +1,15 @@
 # React, 배워서 남주자.
 
+## 23 useDispatch Context
+
+특정 함수를 여러 컴포넌트에 거쳐서 전달해야 한다면,  
+dispatch를 관리하는 Context를 만들어서 필요한 곳에서 바로 dispatch를 불러  
+사용하면 깔금하게 사용 가능.  
+useState가 아닌 useReducer를 사용했기 때문에, dispatch를 context에 담을 수 있었음.  
+context에 상태도 넣어서 관리 가능함.  
+
+- -> CreateUser Component도 Context API를 사용하도록 해보자.
+
 ## 22 Context API를 사용한 전역 값 관리
 
 특정 함수를 특정 컴포넌트에 전달하기 위에 중간에 있는 컴포넌트를 불필요하게 거쳐야 하는 일이 자주 발생함.  

@@ -1,4 +1,10 @@
-import React, { useRef, useReducer, useMemo, useCallback } from 'react';
+import React, {
+  useRef,
+  useReducer,
+  useMemo,
+  useCallback,
+  createContext,
+} from 'react';
 import Hello from './Hello';
 import './styles.css';
 import Wrapper from './Wrapper';
@@ -60,6 +66,9 @@ function usersReducer(state, action) {
       throw Error('Unhandled Action On UsersReducer.');
   }
 }
+
+export const UserDispatch = createContext(null);
+
 export default function App() {
   const [state, dispatch] = useReducer(usersReducer, initialState);
   const [form, onChange, reset] = useInputs({
@@ -83,20 +92,6 @@ export default function App() {
     reset();
   }, [username, email, reset]);
 
-  const onToggle = useCallback(id => {
-    dispatch({
-      type: 'TOGGLE_USER',
-      id,
-    });
-  }, []);
-
-  const onRemove = useCallback(id => {
-    dispatch({
-      type: 'REMOVE_USER',
-      id,
-    });
-  }, []);
-
   const count = useMemo(() => coutActiveUsers(users), [users]);
   return (
     <>
@@ -112,14 +107,16 @@ export default function App() {
         <InputSample />
       </Wrapper>
       <Wrapper>
-        <CreateUser
-          username={username}
-          email={email}
-          onChange={onChange}
-          onCreate={onCreate}
-        />
-        <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
-        <div>활성 사용자 수 : {count}</div>
+        <UserDispatch.Provider value={dispatch}>
+          <CreateUser
+            username={username}
+            email={email}
+            onChange={onChange}
+            onCreate={onCreate}
+          />
+          <UserList users={users} />
+          <div>활성 사용자 수 : {count}</div>
+        </UserDispatch.Provider>
       </Wrapper>
       <Wrapper>
         <ContextSample />
