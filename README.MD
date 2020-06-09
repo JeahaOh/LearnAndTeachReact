@@ -1,5 +1,13 @@
 # React, 배워서 남주자.
 
+## 17 useCallback Hook
+
+이전에 만든 함수를 새로 만들지 않고 재사용하도록 도와주는 Hook.  
+App.js에서 사용하는 onCreate, onToggle, onRemove등의   
+기존에 만든 함수들은 컴포넌트가 리렌더링 될 때마다 함수를 새로 만들고 있었음.  
+당연히, 재 사용하는 것이 좋음.  
+React.memo를 사용하기 전에 useMemo와 useCallback으로 최적화 준비 작업을 하는 거라고 생각하면 됨.  
+
 ## 16 useMemo Hook
 
 useMemo Hook은 성능을 최적화 할 때 사용함.  

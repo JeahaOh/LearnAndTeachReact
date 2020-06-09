@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo } from 'react';
+import React, { useRef, useState, useMemo, useCallback } from 'react';
 import Hello from './Hello';
 import './styles.css';
 import Wrapper from './Wrapper';
@@ -20,13 +20,16 @@ export default function App() {
 
   const { username, email } = inputs;
 
-  const onChange = e => {
-    const { name, value } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
+  const onChange = useCallback(
+    e => {
+      const { name, value } = e.target;
+      setInputs({
+        ...inputs,
+        [name]: value,
+      });
+    },
+    [inputs],
+  );
 
   const [users, setUsers] = useState([
     {
@@ -52,7 +55,7 @@ export default function App() {
   const nextId = useRef(users.length + 1);
   console.log(nextId);
 
-  const onCreate = () => {
+  const onCreate = useCallback(() => {
     console.log(nextId.current);
 
     const user = {
@@ -69,19 +72,25 @@ export default function App() {
       email: '',
     });
     nextId.current += 1;
-  };
+  }, [username, email, users]);
 
-  const onRemove = id => {
-    setUsers(users.filter(user => user.id !== id));
-  };
+  const onRemove = useCallback(
+    id => {
+      setUsers(users.filter(user => user.id !== id));
+    },
+    [users],
+  );
 
-  const onToggle = id => {
-    setUsers(
-      users.map(user =>
-        user.id === id ? { ...user, active: !user.active } : user,
-      ),
-    );
-  };
+  const onToggle = useCallback(
+    id => {
+      setUsers(
+        users.map(user =>
+          user.id === id ? { ...user, active: !user.active } : user,
+        ),
+      );
+    },
+    [users],
+  );
 
   //  users가 바뀌었을 때만 countActiveUsers 함수를 호출하도록 한다.
   const count = useMemo(() => coutActiveUsers(users), [users]);
