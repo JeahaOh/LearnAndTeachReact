@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 function User({ user, onRemove, onToggle }) {
   const { username, email, id, active } = user;
+
+  useEffect(() => {
+    console.log('User Component가 화면에 출력 됨.');
+    console.log('user 값이 설정됨.', user);
+    //  porps -> state
+    //  REST API
+    //  D3, video.js, OL
+    //  setInterval, setTimout
+    return () => {
+      console.log('User Component가 화면에서 사라짐.');
+      console.log('user 값이 바뀌기 전.', user);
+      //  clearInterval, clearTimeout. 라이브러리 인스턴스 제거.
+    };
+  }, [user]);
+
   return (
     <div>
       <b
