@@ -7,6 +7,7 @@ import InputSample from './InputSample';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
 import useInputs from './hooks/useInputs_reducer';
+import ContextSample from './ContextSample';
 
 function coutActiveUsers(users) {
   console.log('활성 사용자 수를 세는 중...');
@@ -119,6 +120,9 @@ export default function App() {
         />
         <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
         <div>활성 사용자 수 : {count}</div>
+      </Wrapper>
+      <Wrapper>
+        <ContextSample />
       </Wrapper>
     </>
   );
