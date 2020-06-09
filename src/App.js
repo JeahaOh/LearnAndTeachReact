@@ -1,10 +1,4 @@
-import React, {
-  useRef,
-  useReducer,
-  useMemo,
-  useCallback,
-  createContext,
-} from 'react';
+import React, { useReducer, useMemo, createContext } from 'react';
 import Hello from './Hello';
 import './styles.css';
 import Wrapper from './Wrapper';
@@ -12,7 +6,6 @@ import Counter from './Counter';
 import InputSample from './InputSample';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
-import useInputs from './hooks/useInputs_reducer';
 import ContextSample from './ContextSample';
 
 function coutActiveUsers(users) {
@@ -71,26 +64,8 @@ export const UserDispatch = createContext(null);
 
 export default function App() {
   const [state, dispatch] = useReducer(usersReducer, initialState);
-  const [form, onChange, reset] = useInputs({
-    username: '',
-    email: '',
-  });
-  const { username, email } = form;
-  const { users } = state;
-  const nextId = useRef(users.length + 1);
 
-  const onCreate = useCallback(() => {
-    dispatch({
-      type: 'CREATE_USER',
-      user: {
-        id: nextId.current,
-        username,
-        email,
-      },
-    });
-    nextId.current += 1;
-    reset();
-  }, [username, email, reset]);
+  const { users } = state;
 
   const count = useMemo(() => coutActiveUsers(users), [users]);
   return (
@@ -107,13 +82,10 @@ export default function App() {
         <InputSample />
       </Wrapper>
       <Wrapper>
-        <UserDispatch.Provider value={dispatch}>
-          <CreateUser
-            username={username}
-            email={email}
-            onChange={onChange}
-            onCreate={onCreate}
-          />
+        <UserDispatch.Provider
+          value={{ dispatch, nextUserId: users.length + 1 }}
+        >
+          <CreateUser />
           <UserList users={users} />
           <div>활성 사용자 수 : {count}</div>
         </UserDispatch.Provider>
