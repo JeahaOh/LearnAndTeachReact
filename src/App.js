@@ -10,7 +10,7 @@ import ContextSample from './ContextSample';
 
 import produce from 'immer';
 window.produce = produce;
-
+//  immer test >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 {
   console.group('immer test');
   const obj = {
@@ -40,6 +40,7 @@ window.produce = produce;
   console.log(nextArr);
   console.groupEnd('immer test');
 }
+//  immer test <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 function coutActiveUsers(users) {
   console.log('활성 사용자 수를 세는 중...');
@@ -71,26 +72,38 @@ const initialState = {
 function usersReducer(state, action) {
   switch (action.type) {
     case 'CREATE_USER':
-      //  reducer를 사용하면 inputs의 초기화와, users에 user를 추가하는 행동을 한번에 할 수 있다.
-      return {
-        inputs: initialState.inputs,
-        users: state.users.concat(action.user),
-      };
+      // return {
+      //   inputs: initialState.inputs,
+      //   users: state.users.concat(action.user),
+      // };
+      return produce(state, draft => {
+        draft.users.push(action.user);
+      });
     case 'TOGGLE_USER':
-      return {
-        ...state,
-        users: state.users.map(user =>
-          user.id === action.id ? { ...user, active: !user.active } : user,
-        ),
-      };
+      // return {
+      //   ...state,
+      //   users: state.users.map(user =>
+      //     user.id === action.id ? { ...user, active: !user.active } : user,
+      //   ),
+      // };
+      return produce(state, draft => {
+        const user = draft.users.find(user => user.id === action.id);
+        user.active = !user.active;
+      });
     case 'REMOVE_USER':
-      return {
-        ...state,
-        users: state.users.filter(user => user.id !== action.id),
-      };
+      // return {
+      //   ...state,
+      //   users: state.users.filter(user => user.id !== action.id),
+      // };
+      return produce(state, draft => {
+        const idx = draft.users.findIndex(user => user.id === action.id);
+        draft.users.splice(idx, 1);
+      });
     default:
       throw Error('Unhandled Action On UsersReducer.');
   }
+  // immer는 기존의 로직이 복잡한 곳에서 사용하는 게 좋다.
+  //  create나 remove 같은 경우는 immer를 사용하기엔 이미 간단함.
 }
 
 export const UserDispatch = createContext(null);

@@ -4,7 +4,7 @@ import { UserDispatch } from './App';
 const User = React.memo(function User({ user }) {
   const { username, email, id, active } = user;
 
-  const dispatch = useContext(UserDispatch);
+  const { dispatch } = useContext(UserDispatch);
 
   useEffect(() => {
     console.log('User Component가 화면에 출력 됨.');
