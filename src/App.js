@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useMemo } from 'react';
 import Hello from './Hello';
 import './styles.css';
 import Wrapper from './Wrapper';
@@ -6,6 +6,11 @@ import Counter from './Counter';
 import InputSample from './InputSample';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
+
+function coutActiveUsers(users) {
+  console.log('활성 사용자 수를 세는 중...');
+  return users.filter(user => user.active).length;
+}
 
 export default function App() {
   const [inputs, setInputs] = useState({
@@ -78,6 +83,8 @@ export default function App() {
     );
   };
 
+  //  users가 바뀌었을 때만 countActiveUsers 함수를 호출하도록 한다.
+  const count = useMemo(() => coutActiveUsers(users), [users]);
   return (
     <>
       <Wrapper>
@@ -99,6 +106,7 @@ export default function App() {
           onCreate={onCreate}
         />
         <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+        <div>활성 사용자 수 : {count}</div>
       </Wrapper>
     </>
   );
